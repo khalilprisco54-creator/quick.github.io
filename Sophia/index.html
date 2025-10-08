@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Do You Like Me?</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #ffc0cb 0%, #e6d5ff 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 182, 193, 0.6);
+            transform: rotate(45deg);
+            animation: float 6s infinite ease-in-out;
+        }
+
+        .heart::before,
+        .heart::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 182, 193, 0.6);
+            border-radius: 50%;
+        }
+
+        .heart::before {
+            left: -10px;
+        }
+
+        .heart::after {
+            top: -10px;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(45deg);
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 60px 80px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            max-width: 600px;
+            position: relative;
+            z-index: 10;
+        }
+
+        h1 {
+            font-size: 48px;
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        p {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        button {
+            padding: 16px 40px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .yes-btn {
+            background: linear-gradient(135deg, #ff6b9d 0%, #ffa5c3 100%);
+            color: white;
+            box-shadow: 0 8px 20px rgba(255, 107, 157, 0.3);
+        }
+
+        .yes-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(255, 107, 157, 0.4);
+        }
+
+        .no-btn {
+            background: white;
+            color: #ff6b9d;
+            border: 2px solid #ff6b9d;
+        }
+
+        .no-btn:hover {
+            transform: translateY(-3px);
+            background: #fff0f5;
+        }
+
+        .surprise {
+            display: none;
+            animation: fadeIn 0.6s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .surprise h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: #ff6b9d;
+        }
+
+        .surprise p {
+            font-size: 20px;
+            color: #555;
+        }
+
+        .love-letter {
+            text-align: left;
+            max-width: 100%;
+        }
+
+        .letter-header {
+            font-size: 12px;
+            color: #999;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .letter-title {
+            font-size: 32px;
+            color: #333;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        .letter-content {
+            font-size: 18px;
+            line-height: 1.8;
+            color: #555;
+        }
+
+        .letter-content p {
+            margin-bottom: 20px;
+        }
+
+        .drop-cap {
+            font-size: 60px;
+            font-weight: bold;
+            color: #ff6b9d;
+            float: left;
+            line-height: 0.8;
+            margin-right: 8px;
+            margin-top: 8px;
+        }
+
+        .postscript {
+            font-size: 18px;
+            color: #ff6b9d;
+            margin-top: 30px;
+            font-style: italic;
+        }
+
+        .next-btn {
+            background: linear-gradient(135deg, #a78bfa 0%, #c4b5fd 100%);
+            color: white;
+            padding: 14px 35px;
+            border: none;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            margin-top: 30px;
+            box-shadow: 0 8px 20px rgba(167, 139, 250, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .next-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(167, 139, 250, 0.4);
+        }
+
+        .memory-card {
+            background: linear-gradient(135deg, #fef3f9 0%, #f8f4ff 100%);
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .memory-header {
+            font-size: 12px;
+            color: #ff6b9d;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .memory-title {
+            font-size: 22px;
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .memory-img {
+            max-width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            margin-bottom: 15px;
+        }
+
+        .memory-caption {
+            font-size: 14px;
+            color: #666;
+            font-style: italic;
+            line-height: 1.6;
+        }
+
+        .emoji {
+            font-size: 72px;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        /* 🌸 Moving Heart Background Effect */
+        @keyframes heartFloat {
+            0% {
+                transform: translateY(0) scale(1) rotate(45deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) scale(1.5) rotate(45deg);
+                opacity: 0;
+            }
+        }
+
+        .moving-heart {
+            position: fixed;
+            width: 16px;
+            height: 16px;
+            background: #ff6b9d;
+            transform: rotate(45deg);
+            animation: heartFloat linear forwards;
+            opacity: 0.8;
+            z-index: 0;
+        }
+
+        .moving-heart::before,
+        .moving-heart::after {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background: #ff6b9d;
+            border-radius: 50%;
+        }
+
+        .moving-heart::before {
+            top: -8px;
+            left: 0;
+        }
+
+        .moving-heart::after {
+            left: -8px;
+            top: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="question">
+            <h1>Do you like me?</h1>
+            <p>Choose with your heart. Either way, I have a little surprise waiting for you.</p>
+            <div class="buttons">
+                <button class="yes-btn" onclick="showSurprise('yes')">YES</button>
+                <button class="no-btn" onclick="showSurprise('no')">NO</button>
+            </div>
+        </div>
+
+        <div id="yes-surprise" class="surprise">
+            <div class="love-letter">
+                <div class="letter-header">Inbox • Love Letter</div>
+                <h1 class="letter-title">You just opened something special ✨</h1>
+                
+                <div class="letter-content">
+                    <p><span class="drop-cap">I</span> When our eyes met for the first time, it felt like the universe fell silent, waiting for something beautiful to begin.</p>
+                    
+                    <p><span class="drop-cap">E</span>very conversation with you feels like discovering a new secret constellation. You remind me that the ordinary can be magical.</p>
+                    
+                    <p><span class="drop-cap">I</span>f I could bottle the way you make me smile, the universe would shine a little brighter. You are my favorite topic, my warmest daydream.</p>
+                    
+                    <p><span class="drop-cap">S</span>o here I am, writing this little letter, hoping it paints even a fraction of what my heart keeps whispering: I like you—in the boldest, softest way.</p>
+                    
+                    <p class="postscript">P.S. I tucked in one more surprise when you feel ready 🐝</p>
+                </div>
+
+                <button class="next-btn" onclick="showMemory()">NEXT MEMORY</button>
+
+                <div id="memory-section" style="display: none;">
+                    <div class="memory-card">
+                        <div class="memory-header">Cherished Photo</div>
+                        <div class="memory-title">A portrait I love</div>
+                        <img src="Sophia Nicolette.jpg" alt="Portrait" class="memory-img">
+                        <p class="memory-caption">Every letter deserves a face to smile back at. Here is the reason my words glow.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="no-surprise" class="surprise">
+            <span class="emoji">😿</span>
+            <h2>Oh no... the cat is crushed.</h2>
+            <p>Maybe give that "yes" another try? I promise the letter was written just for you.</p>
+            <div style="margin: 30px 0;">
+                <img src="sad cat.jpg" alt="Sad cat looking out a window" style="max-width: 300px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+            </div>
+            <button class="yes-btn" onclick="resetQuestion()" style="margin-top: 20px;">ALRIGHT... LET ME ANSWER AGAIN</button>
+        </div>
+    </div>
+
+    <script>
+        // Create floating hearts
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDelay = Math.random() * 6 + 's';
+            heart.style.top = '100%';
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 6000);
+        }
+
+        setInterval(createHeart, 800);
+
+        function showSurprise(choice) {
+            const question = document.getElementById('question');
+            const yesSurprise = document.getElementById('yes-surprise');
+            const noSurprise = document.getElementById('no-surprise');
+
+            question.style.display = 'none';
+
+            if (choice === 'yes') {
+                yesSurprise.style.display = 'block';
+            } else {
+                noSurprise.style.display = 'block';
+            }
+        }
+
+        function resetQuestion() {
+            const question = document.getElementById('question');
+            const yesSurprise = document.getElementById('yes-surprise');
+            const noSurprise = document.getElementById('no-surprise');
+
+            noSurprise.style.display = 'none';
+            question.style.display = 'block';
+        }
+
+        function showMemory() {
+            const memorySection = document.getElementById('memory-section');
+            memorySection.style.display = 'block';
+            memorySection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        // 💖 Moving background hearts
+        function spawnMovingHeart() {
+            const heart = document.createElement("div");
+            heart.classList.add("moving-heart");
+
+            const size = Math.random() * 20 + 10;
+            heart.style.width = `${size}px`;
+            heart.style.height = `${size}px`;
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.animationDuration = Math.random() * 5 + 5 + "s";
+
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 10000);
+        }
+
+        setInterval(spawnMovingHeart, 300);
+    </script>
+</body>
+</html>
